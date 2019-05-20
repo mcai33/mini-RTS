@@ -4,7 +4,8 @@
 #include "nuc123.h"
 #include "type.h"
 
-extern void sw_delay_us(uint16_t x);
+
+extern void sw_delay_us(u16 x);
 
 
 extern void sw_delay_1us(void);

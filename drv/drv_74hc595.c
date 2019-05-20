@@ -1,33 +1,28 @@
-
 #include "drv_74hc595.h"
-#include "drv_common.h"
-
-
 
 void HC575_Init(void)
 {
-	SYS->GPC_MFP &= ~(SYS_GPC_MFP_PC3_Msk |SYS_GPC_MFP_PC2_Msk |SYS_GPC_MFP_PC1_Msk |SYS_GPC_MFP_PC0_Msk );
-	SYS->GPC_MFP |= (SYS_GPC_MFP_PC3_GPIO |SYS_GPC_MFP_PC2_GPIO |SYS_GPC_MFP_PC1_GPIO |SYS_GPC_MFP_PC0_GPIO);
-	GPIO_SetMode(PC,BIT3 |BIT2 |BIT1 |BIT0,GPIO_PMD_OUTPUT);
-	
-	
+
+	HC575_INIT;
+
+#ifdef PIN_HC575_RST_N
 	PIN_HC575_RST_N = 0;
+#endif
 	PIN_HC575_LCK = 0;
 	PIN_HC575_SCK = 0;
 	PIN_HC575_SI = 0;
 #ifdef PIN_HC575_OE_N
 	PIN_HC575_OE_N = 1;
 #endif
-	
-
 }
 
-//void 
 
-void HC575_SetSR_Data(uint16_t sdata_in)
+void HC575_SetSR_Data(u16 sdata_in)
 {
-	uint16_t  i;
+	u16  i;
+#ifdef PIN_HC575_RST_N
 	PIN_HC575_RST_N = 1;
+#endif
 	sw_delay_1us();
 	for(i = 0;i < 8; i++)
 	{
@@ -49,7 +44,7 @@ void HC575_SetLR(void)
 	sw_delay_1us();
 }
 
-void HC575_Output_Data(uint16_t sdata)
+void HC575_Output_Data(u16 sdata)
 {
 
 	HC575_SetSR_Data(sdata);

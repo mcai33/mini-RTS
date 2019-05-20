@@ -10,6 +10,7 @@
       <TargetName>mini-RTS</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
+      <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
       <uAC6>0</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -379,6 +380,21 @@
       </TargetOption>
       <Groups>
         <Group>
+          <GroupName>app</GroupName>
+          <Files>
+            <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\main.c</FilePath>
+            </File>
+            <File>
+              <FileName>sch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\sch.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>drv</GroupName>
           <Files>
             <File>
@@ -401,20 +417,10 @@
               <FileType>1</FileType>
               <FilePath>..\drv\drv_sch.c</FilePath>
             </File>
-          </Files>
-        </Group>
-        <Group>
-          <GroupName>app</GroupName>
-          <Files>
             <File>
-              <FileName>main.c</FileName>
+              <FileName>hw_config.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\app\main.c</FilePath>
-            </File>
-            <File>
-              <FileName>sch.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\app\sch.c</FilePath>
+              <FilePath>..\drv\hw_config.c</FilePath>
             </File>
           </Files>
         </Group>
