@@ -8,6 +8,6 @@
 *.axf
 *.crf
 
-keil/
+keil/*
 !keil/*.uvoptx
 !keil/*.uvprojx
