@@ -1,1 +1,13 @@
-/keil
+# for embed-system 
+
+#
+*.log
+*.[ao]
+
+# keil generate files
+*.axf
+*.crf
+
+keil/
+!keil/*.uvoptx
+!keil/*.uvprojx
