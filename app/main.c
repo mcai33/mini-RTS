@@ -1,30 +1,25 @@
 //#define Stack_Size 0x200
 #include "sch.h"
-#include "drv_led.h"
+//#include "drv_led.h"
+#include "drv_74hc595.h"
 
 
 void SYS_Init()
 {
 		SCH_Init_T0();
-		DRV_LED_Init();
+		//DRV_LED_Init();
+		HC595_Init();
+		HC595_Output_Data(0x0f);
 }
 
 
-void LED_Task1()
-{
-	LED1_REVERSE();
-}
 
-void LED_Task2()
-{
-	LED2_REVERSE();
-}
+
+
 
 int main(void)
 {
 	SYS_Init();
-	SCH_Add_Task(LED_Task1, 0, 200);
-	SCH_Add_Task(LED_Task2, 0, 500);
 	//SCH_Add_Task(HC575_Task, 0, 200);
 	SCH_Start();
 	while(1)
