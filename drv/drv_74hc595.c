@@ -28,7 +28,7 @@ void HC595_SetSR_Data(u16 sdata_in)
 	{
 		PIN_HC595_SCK = 0;
 		sw_delay_1us();
-		//PIN_HC595_SI = ((sdata_in >> i) & 0x01 );
+		//PIN_HC595_SI = ((sdata_in >> i) & 0x01 );  
 		if( (sdata_in << i) & 0x80) PIN_HC595_SI = 1;
 		else PIN_HC595_SI = 0;
 		sw_delay_1us();

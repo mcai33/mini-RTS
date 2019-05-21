@@ -9,7 +9,7 @@ void SYS_Init()
 		SCH_Init_T0();
 		//DRV_LED_Init();
 		HC595_Init();
-		HC595_Output_Data(0x0f);
+		HC595_Output_Data(0xbf);
 }
 
 

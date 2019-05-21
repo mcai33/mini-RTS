@@ -417,6 +417,11 @@
               <FileType>1</FileType>
               <FilePath>..\drv\drv_led.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_ds1302.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\drv_ds1302.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
