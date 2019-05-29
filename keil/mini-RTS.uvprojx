@@ -188,7 +188,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>DEBUG_ENABLE_SEMIHOST=1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc</IncludePath>
+              <IncludePath>..\app\inc;..\drv\inc;..\fml\inc;..\hal\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -422,21 +422,26 @@
               <FileType>1</FileType>
               <FilePath>..\drv\drv_ds1302.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_nuc123.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\drv_nuc123.c</FilePath>
+            </File>
+            <File>
+              <FileName>descriptors.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\descriptors.c</FilePath>
+            </File>
+            <File>
+              <FileName>hid_transfer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\hid_transfer.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
           <GroupName>bsp</GroupName>
           <Files>
-            <File>
-              <FileName>startup_NUC123.s</FileName>
-              <FileType>2</FileType>
-              <FilePath>..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\startup_NUC123.s</FilePath>
-            </File>
-            <File>
-              <FileName>system_NUC123.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\system_NUC123.c</FilePath>
-            </File>
             <File>
               <FileName>adc.c</FileName>
               <FileType>1</FileType>
@@ -488,11 +493,6 @@
               <FilePath>..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\src\pwm.c</FilePath>
             </File>
             <File>
-              <FileName>retarget.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\src\retarget.c</FilePath>
-            </File>
-            <File>
               <FileName>spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\src\spi.c</FilePath>
@@ -529,14 +529,73 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
+        </Group>
+        <Group>
+          <GroupName>::Device</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
 
   <RTE>
+    <packages>
+      <filter>
+        <targetInfos/>
+      </filter>
+      <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.4.0">
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </package>
+      <package name="NuMicro_DFP" schemaVersion="1.2" url="http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack" vendor="Nuvoton" version="1.3.2">
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </package>
+    </packages>
     <apis/>
-    <components/>
-    <files/>
+    <components>
+      <component Cclass="CMSIS" Cgroup="CORE" Cvendor="ARM" Cversion="5.1.2" condition="ARMv6_7_8-M Device">
+        <package name="CMSIS" schemaVersion="1.3" url="http://www.keil.com/pack/" vendor="ARM" version="5.4.0"/>
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </component>
+      <component Cclass="Device" Cgroup="Startup" Cvendor="Nuvoton" Cversion="0.00.001" condition="M0NuMicro NUC123 Device">
+        <package name="NuMicro_DFP" schemaVersion="1.2" url="http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack" vendor="Nuvoton" version="1.3.2"/>
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </component>
+    </components>
+    <files>
+      <file attr="config" category="sourceC" name="Device\NUC123\StdDriver\src\retarget.c" version="0.00.001">
+        <instance index="0">RTE\Device\NUC123LD4AN0\retarget.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Nuvoton" Cversion="0.00.001" condition="M0NuMicro NUC123 Device"/>
+        <package name="NuMicro_DFP" schemaVersion="1.2" url="http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack" vendor="Nuvoton" version="1.3.2"/>
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="sourceAsm" condition="Compiler ARM" name="Device\NUC123\Source\ARM\startup_NUC123.s" version="0.00.001">
+        <instance index="0">RTE\Device\NUC123LD4AN0\startup_NUC123.s</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Nuvoton" Cversion="0.00.001" condition="M0NuMicro NUC123 Device"/>
+        <package name="NuMicro_DFP" schemaVersion="1.2" url="http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack" vendor="Nuvoton" version="1.3.2"/>
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </file>
+      <file attr="config" category="source" name="Device\NUC123\Source\system_NUC123.c" version="0.00.001">
+        <instance index="0">RTE\Device\NUC123LD4AN0\system_NUC123.c</instance>
+        <component Cclass="Device" Cgroup="Startup" Cvendor="Nuvoton" Cversion="0.00.001" condition="M0NuMicro NUC123 Device"/>
+        <package name="NuMicro_DFP" schemaVersion="1.2" url="http://www.nuvoton.com/hq/enu/Documents/KEILSoftwarePack" vendor="Nuvoton" version="1.3.2"/>
+        <targetInfos>
+          <targetInfo name="mini-RTS"/>
+        </targetInfos>
+      </file>
+    </files>
   </RTE>
 
 </Project>

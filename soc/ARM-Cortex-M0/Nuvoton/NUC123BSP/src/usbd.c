@@ -12,7 +12,7 @@
 #include <string.h>
 #include "NUC123.h"
 
-#if 0
+#if 1
 #define DBG_PRINTF      printf
 #else
 #define DBG_PRINTF(...)
@@ -203,6 +203,7 @@ void USBD_GetDescriptor(void)
         {
             u32Len = Minimum(u32Len, LEN_DEVICE);
             DBG_PRINTF("Get device desc, %d\n", u32Len);
+//					  DBG_PRINTF("%s\n", (uint8_t *)g_usbd_sInfo->gu8DevDesc);
             USBD_PrepareCtrlIn((uint8_t *)g_usbd_sInfo->gu8DevDesc, u32Len);
             USBD_PrepareCtrlOut(0, 0);
             break;
@@ -483,7 +484,9 @@ void USBD_StandardRequest(void)
   */
 void USBD_PrepareCtrlIn(uint8_t *pu8Buf, uint32_t u32Size)
 {
+	//	DBG_PRINTF("%s\n", pu8Buf);
     DBG_PRINTF("Prepare Ctrl In %d\n", u32Size);
+
     if(u32Size > g_usbd_CtrlMaxPktSize)
     {
         // Data size > MXPLD
