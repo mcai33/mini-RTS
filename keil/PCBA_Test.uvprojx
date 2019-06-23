@@ -188,7 +188,7 @@
             <hadIRAM2>0</hadIRAM2>
             <hadIROM2>0</hadIROM2>
             <StupSel>8</StupSel>
-            <useUlib>0</useUlib>
+            <useUlib>1</useUlib>
             <EndSel>0</EndSel>
             <uLtcg>0</uLtcg>
             <nSecure>0</nSecure>
@@ -336,9 +336,9 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>DEBUG_ENABLE_SEMIHOST=1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc</IncludePath>
+              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -372,7 +372,7 @@
             <ScatterFile></ScatterFile>
             <IncludeLibs></IncludeLibs>
             <IncludeLibsPath></IncludeLibsPath>
-            <Misc></Misc>
+            <Misc>--entry Reset_Handler</Misc>
             <LinkerInputFile></LinkerInputFile>
             <DisabledWarnings></DisabledWarnings>
           </LDads>

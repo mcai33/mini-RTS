@@ -1,4 +1,3 @@
-
 #include "drv_common.h"
 
 void sw_delay_us(u16 x)
