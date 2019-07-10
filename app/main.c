@@ -23,8 +23,8 @@ void LED_Task2(void);
 int main(void)
 {
 	SYS_Init();
-	SCH_Add_Task(LED_Task1, 0, 200);
-	SCH_Add_Task(LED_Task2, 0, 500);
+	SCH_Add_Task(LED_Task1, 0, 500);
+	SCH_Add_Task(LED_Task2, 0, 200);
 	//SCH_Add_Task(HC575_Task, 0, 200);
 	SCH_Start();
 	while(1)
@@ -44,13 +44,13 @@ void SYS_Init()
 }
 
 
-char str[]={"abcde\n"};
+//char str[]={"Hello World!\n"};
 
 void LED_Task1()
 {
 	LED1_REVERSE();
 	//printf(%d,DEVICE_ID_E.DEVICE_ID_1);
-		printf("%s",str);
+	printf("LED_Taks1!\n");
 
 }
 
@@ -58,6 +58,7 @@ void LED_Task1()
 void LED_Task2()
 {
 	LED2_REVERSE();
+	printf("LED_Taks2!\n");
 }
 
 
