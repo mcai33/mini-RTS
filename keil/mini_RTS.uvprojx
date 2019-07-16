@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>DEBUG_ENABLE_SEMIHOST=1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP</IncludePath>
+              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP;..\app</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -391,6 +391,21 @@
               <FileName>sch.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\sch.c</FilePath>
+            </File>
+            <File>
+              <FileName>module_a.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\module_a.c</FilePath>
+            </File>
+            <File>
+              <FileName>module_b.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\module_b.c</FilePath>
+            </File>
+            <File>
+              <FileName>shared_state.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\app\shared_state.c</FilePath>
             </File>
           </Files>
         </Group>
