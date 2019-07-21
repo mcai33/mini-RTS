@@ -3,11 +3,12 @@
 #include <string.h>
 #include "MQ.h"
 
+
 void MQ_Init(MQ* me, int (*isFullFunction)(MQ* const me),
     int (*isEmptyFunction)(MQ* const me),
     int (*getSizeFunction)(MQ* const me),
     int (*enQueueFunction)(MQ* const me, char *msg),
-    int (*deQueueFunction)(MQ* const me, char **msg) ){
+    char* (*deQueueFunction)(MQ* const me) ){
 
     me->head = 0;
     me->tail = 0;
@@ -41,10 +42,15 @@ int MQ_getSize(MQ* const me){
 }
 
 int MQ_enQueue(MQ* const me, char *msg){
-
+	//printf("msg length is %d",strlen(msg));
     if (!me->isFull(me))
     {
-		me->buffer[me->head] = (char *)malloc(strlen(msg));
+		me->buffer[me->head] = (char *)malloc(strlen(msg) + 1);
+		if(NULL != me->buffer[me->head] ){
+			//*(me->buffer[me->head]) = msg;
+			strcpy(me->buffer[me->head],msg);
+		}
+
         me->head = (me->head+1)%MQ_SIZE;
         ++me->size;
 		return RT_OK;
@@ -54,19 +60,18 @@ int MQ_enQueue(MQ* const me, char *msg){
 	}
 }
 
-int MQ_deQueue(MQ* const me, char **msg){
+char* MQ_deQueue(MQ* const me){
 
-
-		if(!me->isEmpty(me)){
-        msg = &(me->buffer[me->tail]);
-		free(me->buffer[me->tail]);
+		//msg = NULL;
+	char *msg;
+	if(!me->isEmpty(me)){
+        msg = (me->buffer[me->tail]);
+	//	free(me->buffer[me->tail]);
         me->tail=(me->tail+1)%MQ_SIZE;
         --me->size;
-		return RT_OK;		
-    }
-	else{
-		return RT_FAIL;
+				
 	}
+	return msg;
 
 }
 

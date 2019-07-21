@@ -3,6 +3,7 @@
 #include "drv_led.h"
 #include "drv_ds1302.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "mq.h"
 
@@ -26,8 +27,8 @@ int main(void)
 	}
 	SYS_Init();
 	SCH_Add_Task(LED_Task1, 0, 1000);
-	SCH_Add_Task(LED_Task2, 600, 1100);
-	SCH_Add_Task(DS1302_Test, 100, 1000);
+	SCH_Add_Task(LED_Task2, 0, 1100);
+	//SCH_Add_Task(DS1302_Test, 100, 1000);
 	//SCH_Add_Task(HC575_Task, 0, 200);
 	SCH_Start();
 	while(1)
@@ -37,14 +38,7 @@ int main(void)
 }
 
 
-void MQ_Insert(int msg)
-{}
 
-void Console_Task()
-{
-	int msg_type;
-	//UART_Print(MQ_Get(msg_type));
-}
 
 
 
@@ -86,13 +80,10 @@ void SYS_Init()
 
 void LED_Task1()
 {
-	static u8 led1_flash_times = 0;
-	int led1_msg;
 	LED1_REVERSE();
 	buf1[11]++;
-	MQ_Insert(led1_msg);
 	if(RT_OK == MQ_enQueue(mq,buf1)){
-		printf("enqueue OK,value is %s\n",buf1);
+		printf("TASK1 enqueue OK,value is %s\n",buf1);
 	}
 	else{
 		printf("enqueue FAIL\n");
@@ -104,17 +95,14 @@ void LED_Task1()
 
 void LED_Task2()
 {
-	char  **buf2;
+	char  *buf2 = "abcde";
 	LED2_REVERSE();
 	//printf("LED_Taks2!\n");
-
-	if(RT_OK == MQ_deQueue(mq,buf2)){
-		printf("dequeue OK,value is %s\n",*buf2);
-	}
-	else{
-		printf("dequeue FAIL\n");
-	}
-	UART_Write(UART0,(uint8_t *)buf1,(u32)strlen((const char *)buf1));
+	buf2 = MQ_deQueue(mq);
+	printf("      TASK2 deQueue OK,value is %s\n",buf2);
+	free(buf2);
+	//free()
+	//UART_Write(UART0,(uint8_t *)buf1,(u32)strlen((const char *)buf1));
 	
 }
 
