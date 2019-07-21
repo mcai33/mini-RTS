@@ -327,8 +327,8 @@
             <uC99>1</uC99>
             <uGnu>1</uGnu>
             <useXO>0</useXO>
-            <v6Lang>1</v6Lang>
-            <v6LangP>1</v6LangP>
+            <v6Lang>3</v6Lang>
+            <v6LangP>3</v6LangP>
             <vShortEn>1</vShortEn>
             <vShortWch>1</vShortWch>
             <v6Lto>0</v6Lto>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>DEBUG_ENABLE_SEMIHOST=1</Define>
               <Undefine></Undefine>
-              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP</IncludePath>
+              <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP;..\include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -391,6 +391,11 @@
               <FileName>sch.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\app\sch.c</FilePath>
+            </File>
+            <File>
+              <FileName>mq.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lib\mq.c</FilePath>
             </File>
           </Files>
         </Group>
