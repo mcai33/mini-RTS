@@ -6,18 +6,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mq.h"
+#include "time.h"
 
 void SYS_Init(void);
 void LED_Task1(void);
 void LED_Task2(void);
+void RunTime_Task(void);
 extern void DS1302_Test(void);
 
 MQ *mq;
+RunTime sys_run_time;
 
 char  buf1[20] = "Hello World0";
-
 int main(void)
 {
+
 	mq = MQ_Create();
 	if(RT_OK == MQ_enQueue(mq,buf1)){
 		printf("enqueue OK,value is %s\n",buf1);
@@ -28,6 +31,7 @@ int main(void)
 	SYS_Init();
 	SCH_Add_Task(LED_Task1, 0, 1000);
 	SCH_Add_Task(LED_Task2, 0, 1100);
+	SCH_Add_Task(RunTime_Task, 0, 1000);
 	//SCH_Add_Task(DS1302_Test, 100, 1000);
 	//SCH_Add_Task(HC575_Task, 0, 200);
 	SCH_Start();
@@ -72,17 +76,24 @@ void SYS_Init()
 		SCH_Init_T0();
 		DRV_LED_Init();
 		UART0_Init();
-		
+		RunTime_Reset(&sys_run_time);
 }
 
 
 //char str[]={"Hello World!\n"};
+
+void RunTime_Task()
+{
+	RunTime_Click(&sys_run_time);
+	//printf("the sys_run_time is %d:%d:%d:%d\n",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
+}
 
 void LED_Task1()
 {
 	LED1_REVERSE();
 	buf1[11]++;
 	if(RT_OK == MQ_enQueue(mq,buf1)){
+		printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
 		printf("TASK1 enqueue OK,value is %s\n",buf1);
 	}
 	else{
@@ -99,6 +110,7 @@ void LED_Task2()
 	LED2_REVERSE();
 	//printf("LED_Taks2!\n");
 	buf2 = MQ_deQueue(mq);
+	printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
 	printf("      TASK2 deQueue OK,value is %s\n",buf2);
 	free(buf2);
 	//free()

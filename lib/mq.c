@@ -88,7 +88,7 @@ MQ* MQ_Create(void){
     return me;
 }
 
-void MQ_Destroy(MQ* const me){
+void MQ_Destroy(MQ* const me){ 
 
     if (me!=NULL)
     {
