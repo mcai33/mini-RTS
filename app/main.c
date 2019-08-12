@@ -2,6 +2,8 @@
 #include "sch.h"
 #include "drv_led.h"
 #include "drv_ds1302.h"
+#include "drv_adc.h"
+#include "drv_nuc123.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,8 +11,8 @@
 #include "time.h"
 
 void SYS_Init(void);
-void LED_Task1(void);
-void LED_Task2(void);
+void ADC_Task(void);
+void NUC123_GPIO_Task(void);
 void RunTime_Task(void);
 extern void DS1302_Test(void);
 
@@ -21,19 +23,10 @@ char  buf1[20] = "Hello World0";
 int main(void)
 {
 
-	mq = MQ_Create();
-	if(RT_OK == MQ_enQueue(mq,buf1)){
-		printf("enqueue OK,value is %s\n",buf1);
-	}
-	else{
-		printf("enqueue FAIL\n");
-	}
 	SYS_Init();
-	SCH_Add_Task(LED_Task1, 0, 1000);
-	SCH_Add_Task(LED_Task2, 0, 1100);
+	SCH_Add_Task(ADC_Task, 0, 1200);
+	SCH_Add_Task(NUC123_GPIO_Task, 0, 500);
 	SCH_Add_Task(RunTime_Task, 0, 1000);
-	//SCH_Add_Task(DS1302_Test, 100, 1000);
-	//SCH_Add_Task(HC575_Task, 0, 200);
 	SCH_Start();
 	while(1)
 	{
@@ -76,6 +69,8 @@ void SYS_Init()
 		SCH_Init_T0();
 		DRV_LED_Init();
 		UART0_Init();
+		ADC_Init();
+		NUC123_Init();
 		RunTime_Reset(&sys_run_time);
 }
 
@@ -88,34 +83,39 @@ void RunTime_Task()
 	//printf("the sys_run_time is %d:%d:%d:%d\n",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
 }
 
-void LED_Task1()
+void ADC_Task()
 {
-	LED1_REVERSE();
-	buf1[11]++;
-	if(RT_OK == MQ_enQueue(mq,buf1)){
-		printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
-		printf("TASK1 enqueue OK,value is %s\n",buf1);
-	}
-	else{
-		printf("enqueue FAIL\n");
-	}
-//	printf("mq size is %d, context is %c!\n",MQ_getSize(mq),MQ_deQueue(mq));
-
+	//char str[10];
+	//float v = 3.3 * GetAVDDCodeByADC()/1024;
+	printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
+	printf("%d\n",GetAVDDCodeByADC());
+	//PB7 = ~PB7;
 }
 
-
-void LED_Task2()
+void NUC123_GPIO_Task(void)
 {
-	char  *buf2 = "abcde";
-	LED2_REVERSE();
-	//printf("LED_Taks2!\n");
-	buf2 = MQ_deQueue(mq);
+	u8 val = 0;
+	GPIO_SetMode(PB,BIT7,GPIO_PMD_OUTPUT);
+	PB7 = 1;
 	printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
-	printf("      TASK2 deQueue OK,value is %s\n",buf2);
-	free(buf2);
-	//free()
-	//UART_Write(UART0,(uint8_t *)buf1,(u32)strlen((const char *)buf1));
+	printf("set pb7 =1 \n");
+	sw_delay_us(100);
+	if(PB7) val =1;
+	else val = 0;
+	printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
+	printf("read pb7 = %d \n",val);
 	
+	
+	
+	GPIO_SetMode(PB,BIT7,GPIO_PMD_OUTPUT);
+	PB7 = 0;
+	printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
+	printf("set pb7 =0 \n");
+	sw_delay_us(100);
+	if(PB7) val =1;
+	else val = 0;
+	printf("%d:%d:%d:%d\t",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
+	printf("read pb7 = %d \n",val);
 }
 
 

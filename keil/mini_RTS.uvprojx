@@ -432,6 +432,16 @@
               <FileType>1</FileType>
               <FilePath>..\drv\drv_ds1302.c</FilePath>
             </File>
+            <File>
+              <FileName>drv_adc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\drv_adc.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_nuc123.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\drv_nuc123.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
