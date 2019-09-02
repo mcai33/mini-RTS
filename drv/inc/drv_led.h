@@ -12,11 +12,11 @@
 #define LED_OFF 0
 
 #define LED1_ON() (IO_LED1 = 1)
-#define LED1_OFF() (IO_LED1 = 1)
+#define LED1_OFF() (IO_LED1 = 0)
 #define LED1_REVERSE() (IO_LED1 = ~IO_LED1)
 
 #define LED2_ON() (IO_LED2 = 1)
-#define LED2_OFF() (IO_LED2 = 1)
+#define LED2_OFF() (IO_LED2 = 0)
 #define LED2_REVERSE() (IO_LED2 = ~IO_LED2)
 
 

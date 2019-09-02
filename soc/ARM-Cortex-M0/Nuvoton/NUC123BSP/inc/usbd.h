@@ -12,7 +12,7 @@
 
 #ifndef __USBD_H__
 #define __USBD_H__
-
+//#include <stdint.h>
 
 /** @addtogroup Standard_Driver Standard Driver
   @{
@@ -607,7 +607,7 @@ static __INLINE void USBD_ClearStall(uint8_t epnum)
   * @details     Get USB endpoint stall state.
   *
   */
-static __INLINE uint32_t USBD_GetStall(uint8_t epnum)
+static __inline uint32_t USBD_GetStall(uint8_t epnum)
 {
     uint32_t u32CfgAddr;
     uint32_t u32Cfg;

@@ -14,6 +14,7 @@ void SYS_Init(void);
 void ADC_Task(void);
 void NUC123_GPIO_Task(void);
 void RunTime_Task(void);
+void Connect_Task(void);
 extern void DS1302_Test(void);
 
 MQ *mq;
@@ -24,8 +25,8 @@ int main(void)
 {
 
 	SYS_Init();
-	SCH_Add_Task(ADC_Task, 0, 1200);
-	SCH_Add_Task(NUC123_GPIO_Task, 0, 500);
+	//SCH_Add_Task(ADC_Task, 0, 1200);
+	SCH_Add_Task(Connect_Task, 0, 500);
 	SCH_Add_Task(RunTime_Task, 0, 1000);
 	SCH_Start();
 	while(1)
@@ -82,6 +83,34 @@ void RunTime_Task()
 	RunTime_Click(&sys_run_time);
 	//printf("the sys_run_time is %d:%d:%d:%d\n",sys_run_time.byte[3],sys_run_time.byte[2],sys_run_time.byte[1],sys_run_time.byte[0]);
 }
+
+void Connect_Task()
+{
+#if 0
+	uint8_t val = 0x0f;
+	
+		
+	PB4 = 1;PB5 = 0;PB6 = 0;PB7 = 0;
+	if((PD1 ==1)|(PD2 ==1)|(PD3 ==1)|(PD4 ==1)) val &= 0x07;
+	
+	PB4 = 0;PB5 = 1;PB6 = 0;PB7 = 0;
+	if((PD1 ==1)|(PD2 ==1)|(PD3 ==1)|(PD4 ==1))  val &= 0x0b;
+	
+	PB4 = 0;PB5 = 0;PB6 = 1;PB7 = 0;
+	if((PD1 ==1)|(PD2 ==1)|(PD3 ==1)|(PD4 ==1))  val &= 0x0d;
+	
+	PB4 = 0;PB5 = 0;PB6 = 0;PB7 = 1;
+	if((PD1 ==1)|(PD2 ==1)|(PD3 ==1)|(PD4 ==1))  val &= 0x0e;
+	
+	if(val == 0) LED1_OFF();
+	if(val != 0) LED1_ON();
+	PB4 = 1;PB5 = 1;PB6 = 1;PB7 = 1;
+#endif
+	LED1_REVERSE();
+	LED2_REVERSE();
+	
+}
+
 
 void ADC_Task()
 {
