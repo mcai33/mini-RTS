@@ -101,6 +101,6 @@ void SystemInit(void)
     CLK_WaitClockReady(CLK_CLKSTATUS_XTL12M_STB_Msk);
 
     /* Set core clock */
-    CLK_SetCoreClock(72000000);
+    CLK_SetCoreClock(48000000);
 
 }

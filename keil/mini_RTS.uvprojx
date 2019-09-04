@@ -7,7 +7,7 @@
 
   <Targets>
     <Target>
-      <TargetName>PCBA_Test</TargetName>
+      <TargetName>mini-RTS</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
       <pCCUsed>5060750::V5.06 update 6 (build 750)::ARMCC</pCCUsed>
@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define>DEBUG_ENABLE_SEMIHOST=1</Define>
+              <Define>DEBUG_ENABLE_SEMIHOST</Define>
               <Undefine></Undefine>
               <IncludePath>..\app\inc;..\drv\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP\CMSIS\inc;..\fml\inc;..\hal\inc;..\soc\ARM-Cortex-M0\Nuvoton\NUC123BSP;..\include</IncludePath>
             </VariousControls>
@@ -441,6 +441,21 @@
               <FileName>drv_nuc123.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\drv\drv_nuc123.c</FilePath>
+            </File>
+            <File>
+              <FileName>drv_mcp7425.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\drv\drv_mcp7425.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>hal</GroupName>
+          <Files>
+            <File>
+              <FileName>hal_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\hal\hal_i2c.c</FilePath>
             </File>
           </Files>
         </Group>
