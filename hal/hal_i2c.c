@@ -23,7 +23,7 @@ void I2C0_IRQHandler(void)
     uint32_t u32Status;
 
     u32Status = I2C_GET_STATUS(I2C0);
-
+	//I2C_SET_CONTROL_REG(I2C0,I2C_I2CON_SI);
     if(I2C_GET_TIMEOUT_FLAG(I2C0))
     {
         /* Clear I2C0 Timeout Flag */
@@ -112,7 +112,7 @@ void I2C_MasterTx(uint32_t u32Status)
     }
     else if(u32Status == 0x28)                  /* DATA has been transmitted and ACK has been received */
     {
-        if(g_u8MstDataLen != 3)
+        if(g_u8MstDataLen != 2)
         {
             I2C_SET_DATA(I2C0, g_au8MstTxData[g_u8MstDataLen++]);
             I2C_SET_CONTROL_REG(I2C0, I2C_I2CON_SI);
@@ -133,6 +133,13 @@ void I2C_MasterTx(uint32_t u32Status)
 
 void I2C0_Init(void)
 {
+	
+		    /* Set GPF multi-function pins for I2C0 SDA and SCL */
+    SYS->GPF_MFP &= ~(SYS_GPF_MFP_PF2_Msk | SYS_GPF_MFP_PF3_Msk);
+    SYS->GPF_MFP |= (SYS_GPF_MFP_PF2_I2C0_SDA | SYS_GPF_MFP_PF3_I2C0_SCL);
+    SYS->ALT_MFP1 &= ~(SYS_ALT_MFP1_PF2_Msk | SYS_ALT_MFP1_PF3_Msk);
+    SYS->ALT_MFP1 |= (SYS_ALT_MFP1_PF2_I2C0_SDA | SYS_ALT_MFP1_PF3_I2C0_SCL);
+	
 	    /* Enable I2C0 module clock */
     CLK_EnableModuleClock(I2C0_MODULE);
 	
@@ -143,7 +150,7 @@ void I2C0_Init(void)
     printf("I2C clock %d Hz\n", I2C_GetBusClockFreq(I2C0));
 
     /* Set I2C 4 Slave Addresses */
-    I2C_SetSlaveAddr(I2C0, 0, 0x15, 0);   /* Slave Address : 0x15 */
+    I2C_SetSlaveAddr(I2C0, 0, 0x60, 0);   /* Slave Address : 0x15 */
     I2C_SetSlaveAddr(I2C0, 1, 0x35, 0);   /* Slave Address : 0x35 */
     I2C_SetSlaveAddr(I2C0, 2, 0x55, 0);   /* Slave Address : 0x55 */
     I2C_SetSlaveAddr(I2C0, 3, 0x75, 0);   /* Slave Address : 0x75 */
@@ -166,19 +173,17 @@ void I2C0_Close(void)
 }
 
 
-
-
 int32_t I2C0_Read_Write_SLAVE(uint8_t slvaddr)
 {
     uint32_t i;
 
     g_u8DeviceAddr = slvaddr;
-
-    for(i = 0; i < 0x100; i++)
+	
+    for(i = 0; i < 0x1000; i++)
     {
-        g_au8MstTxData[0] = (uint8_t)((i & 0xFF00) >> 8);
-        g_au8MstTxData[1] = (uint8_t)(i & 0x00FF);
-        g_au8MstTxData[2] = (uint8_t)(g_au8MstTxData[1] + 3);
+        //g_au8MstTxData[0] = 0x60; 
+        g_au8MstTxData[0] = (uint8_t)( (i>>8) & 0x0f);
+        g_au8MstTxData[1] = (uint8_t)(i & 0x00ff);
 
         g_u8MstDataLen = 0;
         g_u8MstEndFlag = 0;
@@ -193,6 +198,8 @@ int32_t I2C0_Read_Write_SLAVE(uint8_t slvaddr)
         while(g_u8MstEndFlag == 0);
         g_u8MstEndFlag = 0;
 
+		
+#if 0
         /* I2C function to read data from slave */
         s_I2C0HandlerFn = (I2C_FUNC)I2C_MasterRx;
 
@@ -210,7 +217,11 @@ int32_t I2C0_Read_Write_SLAVE(uint8_t slvaddr)
             printf("I2C Byte Write/Read Failed, Data 0x%x\n", g_u8MstRxData);
             return -1;
         }
+#endif		
     }
     printf("Master Access Slave (0x%X) Test OK\n", slvaddr);
+	
     return 0;
 }
+
+

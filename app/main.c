@@ -16,6 +16,8 @@ void ADC_Task(void);
 void NUC123_GPIO_Task(void);
 void RunTime_Task(void);
 extern void DS1302_Test(void);
+extern void MCP7425_Init(void);
+
 
 MQ *mq;
 RunTime sys_run_time;
