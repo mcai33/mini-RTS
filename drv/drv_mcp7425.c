@@ -2,11 +2,12 @@
 #include "hal_i2c.h"
 #include "stdio.h"
 
-
+u16 dat[]={0x800,0x9DA,0xB6D,0xC7A,0xCD8,0xC7A,0xB6D,0x9DA,0x800,0x625,0x492,0x385,0x327,0x385,0x492,0x625,0x7FF};
+u8 dat1[]={0x08,0x00,0x09,0xDA,0x0B,0x6D,0x0C,0x7A,0x0c,0xD8,0x0C,0x7A,0x0B,0x6D,0x09,0xDA,0x08,0x00,0x06,0x25,0x04,0x92,0x03,0x85,0x03,0x27,0x03,0x85,0x04,0x92,0x06,0x025};
 
 void MCP7425_Init(void)
 {
-	u8 dat[]={0x00,0x00};
+	u16 tmp=0,i=0;
     /*
         This sample code sets I2C bus clock to 100kHz. Then, Master accesses Slave with Byte Write
         and Byte Read operations, and check if the read data is equal to the programmed data.
@@ -45,9 +46,18 @@ NUC123.PA11 --- MCP4725.SCL
 
     /* Access Slave with no address */
     printf("\n");
-	I2C0_Read_Write_SLAVE(MCP4725_DA);
 	
-   //I2C_WriteMultiBytes(I2C0, 0x60, dat, 2);
+	//I2C_SET_CONTROL_REG(I2C0, I2C_I2CON_STA);
+	//tmp = I2C_GET_STATUS(I2C0);
+	//I2C_SetData(I2C0, 0x0f);
+	//I2C_WriteByte(I2C0,MCP4725_DA,0x0f);
+    //I2C_SET_CONTROL_REG(I2C0, I2C_I2CON_STA);
+	for(i = 0;i< 1600;i++)
+	I2C_WriteMultiBytes(I2C0, MCP4725_DA, dat1, 32);
+	
+	//I2C0_Read_Write_SLAVE(MCP4725_DA);
+	//I2C_WriteMultiBytes(I2C0, MCP4725_DA, const uint8_t *data, uint32_t u32wLen)
+    //I2C_WriteMultiBytes(I2C0, 0x60, dat, 2);
 
     //s_I2C0HandlerFn = NULL;
 
@@ -57,6 +67,11 @@ NUC123.PA11 --- MCP4725.SCL
 
 }
 
+
+void MCP4725_FastMode_Write(u16 byte)
+{
+		I2C_WriteMultiBytes(I2C0, MCP4725_DA, dat, 4);
+}
 
 #if 0
 int32_t MCP4725_Write(mcp4725_mode_t mode,mcp4725_byte_st byte)

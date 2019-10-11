@@ -1,6 +1,7 @@
 #include "hal_i2c.h"
 #include "nuc123.h"
 #include <stdio.h>
+#include <math.h>
 
 /*---------------------------------------------------------------------------------------------------------*/
 /* Global variables                                                                                        */
@@ -91,6 +92,12 @@ void I2C_MasterRx(uint32_t u32Status)
         printf("Status 0x%x is NOT processed\n", u32Status);
     }
 }
+
+
+
+
+
+
 /*---------------------------------------------------------------------------------------------------------*/
 /*  I2C Tx Callback Function                                                                               */
 /*---------------------------------------------------------------------------------------------------------*/
@@ -144,7 +151,7 @@ void I2C0_Init(void)
     CLK_EnableModuleClock(I2C0_MODULE);
 	
     /* Open I2C module and set bus clock */
-    I2C_Open(I2C0, 100000);
+    I2C_Open(I2C0, 400000);
 
     /* Get I2C0 Bus Clock */
     printf("I2C clock %d Hz\n", I2C_GetBusClockFreq(I2C0));
@@ -156,8 +163,8 @@ void I2C0_Init(void)
     I2C_SetSlaveAddr(I2C0, 3, 0x75, 0);   /* Slave Address : 0x75 */
 
     /* Enable I2C interrupt */
-    I2C_EnableInt(I2C0);
-    NVIC_EnableIRQ(I2C0_IRQn);
+    //I2C_EnableInt(I2C0);
+    //NVIC_EnableIRQ(I2C0_IRQn);
 }
 
 void I2C0_Close(void)
@@ -178,6 +185,16 @@ int32_t I2C0_Read_Write_SLAVE(uint8_t slvaddr)
     uint32_t i;
 
     g_u8DeviceAddr = slvaddr;
+	
+	
+//	s_I2C0HandlerFn = (I2C_FUNC)I2C_MasterTx;
+
+//	/* I2C as master sends START signal */
+//	I2C_SET_CONTROL_REG(I2C0, I2C_I2CON_STA);
+
+//	/* Wait I2C Tx Finish */
+//	while(g_u8MstEndFlag == 0);
+//	g_u8MstEndFlag = 0;
 	
     for(i = 0; i < 0x1000; i++)
     {
